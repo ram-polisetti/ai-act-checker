@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+build/
+dist/
+demo-assessments.jsonl
+assessments.jsonl
+eu_ai_act.html
+eu_ai_act.txt
+article5.txt
+article50.txt
+article51_55.txt
+annexIII.txt

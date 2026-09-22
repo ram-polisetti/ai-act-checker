@@ -1,0 +1,21 @@
+{
+  "system_name": "CivicTrust Social Score",
+  "risk_tier": "prohibited",
+  "exit_code": 2,
+  "findings": [
+    {
+      "tier": "prohibited",
+      "rule_id": "P-c",
+      "article": "Article 5(1)(c)",
+      "title": "Social scoring",
+      "description": "AI systems for the evaluation or classification of natural persons or groups over time based on social behaviour or known, inferred or predicted personal characteristics, where the score leads to detrimental treatment in unrelated contexts, or to disproportionate treatment."
+    }
+  ],
+  "transparency_obligations": [],
+  "gpai_analysis": null,
+  "conformity_checklist": [],
+  "act": "Regulation (EU) 2024/1689 (OJ L 2024/1689)",
+  "act_source": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689",
+  "knowledge_date": "2026-09-22",
+  "disclaimer": "Automated triage aid, not legal advice. Verify every determination against the official Act text and consult qualified counsel before placing a system on the market."
+}

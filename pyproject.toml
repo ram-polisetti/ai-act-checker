@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-act-checker"
+version = "0.1.0"
+description = "Deterministic EU AI Act conformity checker — risk-tier triage with article citations"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Ram Charan Satya Sai Teja Polisetti" }]
+
+[project.scripts]
+act-checker = "aiact.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
