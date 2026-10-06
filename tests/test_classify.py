@@ -199,3 +199,31 @@ def test_every_assessment_carries_act_citation():
     assert "2024/1689" in a["act"]
     assert a["act_source"].startswith("https://eur-lex.europa.eu")
     assert "not legal advice" in a["disclaimer"]
+
+
+import pytest
+from aiact.classify import classify
+
+@pytest.mark.parametrize('desc', [None, [], 'text', 42])
+def test_description_requires_object(desc):
+    with pytest.raises(ValueError, match='must be an object'):
+        classify(desc)
+
+@pytest.mark.parametrize('flag', ['gpai_model', 'open_source', 'social_scoring', 'workplace'])
+@pytest.mark.parametrize('value', ['false', 0, 1, None, []])
+def test_flags_require_boolean(flag, value):
+    with pytest.raises(ValueError, match='must be a boolean'):
+        classify({flag: value})
+
+@pytest.mark.parametrize('tags', ['recruitment', [42], {}, None])
+def test_tags_require_string_list(tags):
+    with pytest.raises(ValueError, match='list of strings'):
+        classify({'use_case_tags': tags})
+
+@pytest.mark.parametrize('flop', ['100', True, -1, float('nan'), float('inf')])
+def test_compute_requires_finite_nonnegative_number(flop):
+    with pytest.raises(ValueError, match='finite non-negative'):
+        classify({'gpai_model': True, 'training_compute_flop': flop})
+
+def test_false_flag_remains_false():
+    assert classify({'social_scoring': False})['risk_tier'] == 'minimal-risk'
