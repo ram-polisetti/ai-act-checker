@@ -8,6 +8,8 @@ minimal risk. Classification itself never needs a model; it is fully
 testable.
 """
 
+import math
+
 from . import knowledge as K
 
 TIER_PROHIBITED = "prohibited"
@@ -144,7 +146,27 @@ def high_risk_checklist():
 
 def classify(desc):
     """Classify a system description. Returns a full assessment dict."""
+    if not isinstance(desc, dict):
+        raise ValueError("system description must be an object")
+    for flag in SCHEMA_FLAGS:
+        if flag != "training_compute_flop" and flag in desc and not isinstance(desc[flag], bool):
+            raise ValueError(f"{flag} must be a boolean")
+    tags = desc.get("use_case_tags", [])
+    if not isinstance(tags, list) or any(not isinstance(tag, str) for tag in tags):
+        raise ValueError("use_case_tags must be a list of strings")
+    flop = desc.get("training_compute_flop")
+    if flop is not None:
+        try:
+            valid_compute = (not isinstance(flop, bool)
+                             and isinstance(flop, (int, float))
+                             and math.isfinite(flop) and flop >= 0)
+        except OverflowError:
+            valid_compute = False
+        if not valid_compute:
+            raise ValueError("training_compute_flop must be a finite non-negative number")
     name = desc.get("name", "unnamed system")
+    if not isinstance(name, str):
+        raise ValueError("name must be a string")
 
     prohibitions = check_prohibitions(desc)
     annex_iii = check_annex_iii(desc)
