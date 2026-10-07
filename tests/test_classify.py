@@ -227,3 +227,16 @@ def test_compute_requires_finite_nonnegative_number(flop):
 
 def test_false_flag_remains_false():
     assert classify({'social_scoring': False})['risk_tier'] == 'minimal-risk'
+
+
+def test_enormous_compute_rejected_as_validation_error():
+    import pytest
+    with pytest.raises(ValueError, match='finite non-negative'):
+        classify({'training_compute_flop': 10 ** 400})
+
+
+def test_non_string_system_name_rejected():
+    import pytest
+    for value in (42, None, [], {}):
+        with pytest.raises(ValueError, match='name must be a string'):
+            classify({'name': value})
